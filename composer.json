@@ -1,0 +1,10 @@
+{
+  "name": "bluzphp/module-push",
+  "type": "bluz-module",
+  "license": "MIT",
+  "description": "bluz web push module",
+  "require": {
+    "bluzphp/composer-plugin": "~2.1",
+    "minishlink/web-push": "^4.0"
+  }
+}

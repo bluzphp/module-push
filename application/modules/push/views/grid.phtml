@@ -1,0 +1,91 @@
+<?php
+/**
+ * @var \Bluz\Grid\Grid $grid
+ */
+if (!$grid) return;
+$uid = $grid->getUid();
+?>
+<div class="clearfix" data-spy="grid" data-grid="<?=$uid?>">
+  <script>
+    // use data-spy="grid" for use AJAX for reload grid
+    // include Web Push JS
+    require(['jquery', 'bluz.push', 'bluz.grid'], function($, push) {
+      $(function() {
+        let $subscribe = $('#subscribe');
+        if (push) {
+          $subscribe.on('click', function() {
+            push.subscribe();
+            return false;
+          });
+        } else {
+          $subscribe.prop('disabled', true);
+        }
+      })
+    });
+  </script>
+
+  <nav class="navbar navbar-light bg-light justify-content-between">
+    <div>
+      <button id="subscribe" class="btn btn-primary"><?= __('Subscribe') ?></button>
+      <!-- Place filters here -->
+    </div>
+    <!-- Place search form here -->
+  </nav>
+
+  <hr/>
+
+  <?=$this->partial('grid/total.phtml', ['grid'=>$grid]) ?>
+  <?=$this->partial('grid/limit.phtml', ['grid'=>$grid]) ?>
+
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th width="60px" class="text-center"><a href="<?= $grid->order('id') ?: '#' ?>"><?= __('Id') ?></a></th>
+        <th><a href="<?= $grid->order('userId') ?: '#' ?>"><?= __('UserId') ?></a></th>
+        <th><a href="<?= $grid->order('contentEncoding') ?: '#' ?>"><?= __('ContentEncoding') ?></a></th>
+        <th width="120px"><a href="<?= $grid->order('endpoint') ?: '#' ?>"><?= __('Endpoint') ?></a></th>
+        <th><a href="<?= $grid->order('authToken') ?: '#' ?>"><?= __('AuthToken') ?></a></th>
+        <th><a href="<?= $grid->order('publicKey') ?: '#' ?>"><?= __('PublicKey') ?></a></th>
+        <th><a href="<?= $grid->order('created') ?: '#' ?>"><?= __('Created') ?></a></th>
+        <th><a href="<?= $grid->order('updated') ?: '#' ?>"><?= __('Updated') ?></a></th>
+        <!-- Place your column headers here, for generate link for order use method $grid->order('column name') -->
+        <th width="160px"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php foreach($grid->getData() as $row) : ?>
+      <tr>
+        <td><?= $row['id'] ?></td>
+        <td><a href="<?=$this->url('users', 'profile', ['id' => $row['userId']])?>"
+               data-ajax-dialog data-ajax-method="get" data-modal-style="modal-lg"><?= $row['login'] ?></a></td>
+        <td><?= $row['contentEncoding'] ?></td>
+        <td class="overflowHidden"><?= substr($row['endpoint'], 0, 24) ?>...</td>
+        <td><?= substr($row['authToken'], 0, 24) ?>...</td>
+        <td><?= substr($row['publicKey'], 0, 24) ?>...</td>
+        <td><?= $row['created'] ?></td>
+        <td><?= $row['updated'] ?></td>
+        <!-- Place your content her, use $row['column name'] -->
+        <td class="controls">
+          <a href="<?= $this->url('push', 'send', ['id' => $row['id']]) ?>" class="btn btn-secondary"
+             data-ajax-dialog data-ajax-method="get" data-modal-style="modal-lg">
+            <i class="fa fa-bell"></i>
+          </a>
+          <a href="<?= $this->url('push', 'crud', ['id' => $row['id']]) ?>" class="btn btn-primary"
+             data-ajax-dialog data-ajax-method="get" data-modal-style="modal-lg">
+            <i class="fa fa-pencil"></i>
+          </a>
+          <a href="<?= $this->url('push', 'crud', ['id' => $row['id']]) ?>" class="btn btn-danger"
+             data-confirm data-ajax data-ajax-method="delete">
+            <i class="fa fa-trash-o"></i>
+          </a>
+        </td>
+      </tr>
+      <?php endforeach; ?>
+    </tbody>
+  </table>
+
+  <?=$this->partial('grid/empty-rows.phtml', ['grid'=>$grid]) ?>
+  <?=$this->partial('grid/pagination.phtml', ['grid'=>$grid]) ?>
+  <?=$this->partial('grid/total.phtml', ['grid'=>$grid]) ?>
+
+</div>
