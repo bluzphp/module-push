@@ -12,7 +12,9 @@ $uid = $grid->getUid();
     require(['jquery', 'bluz.push', 'bluz.grid'], function($, push) {
       $(function() {
         let $subscribe = $('#subscribe');
-        if (push) {
+        if (push.isAvailable()) {
+          push.register();
+
           $subscribe.on('click', function() {
             push.subscribe();
             return false;
@@ -26,7 +28,7 @@ $uid = $grid->getUid();
 
   <nav class="navbar navbar-light bg-light justify-content-between">
     <div>
-      <button id="subscribe" class="btn btn-primary"><?= __('Subscribe') ?></button>
+      <button id="subscribe" class="btn btn-primary"><i class="fa fa-bell fa-fw"></i> <?= __('Subscribe') ?></button>
       <!-- Place filters here -->
     </div>
     <!-- Place search form here -->

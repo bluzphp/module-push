@@ -1,0 +1,16 @@
+checks:
+  javascript: true
+  php:
+    psr2_switch_declaration: true
+    psr2_class_declaration: true
+    no_short_open_tag: true
+    deprecated_code_usage: true
+    code_rating: true
+filter:
+  excluded_paths:
+    - 'tests/*'
+tools:
+  php_analyzer: true
+  php_code_sniffer:
+    config:
+      standard: PSR2
