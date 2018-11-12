@@ -10,44 +10,55 @@ define(['jquery', 'bluz', 'bluz.notify'], function ($, bluz, notify) {
 
   const serverKey = 'BIMtOOXkIBAENtP9DwQXr2OAvWMkGowrjHT8GZVEPWnN_kviXX7jqZqlkd7BpPK00112zPvUXnuYNUSwcN5HuqI';
 
-  if (!('serviceWorker' in navigator)) {
-    console.warn('Service workers are not supported by this browser');
-    return false;
-  }
-
-  if (!('PushManager' in window)) {
-    console.warn('Push notifications are not supported by this browser');
-    return false;
-  }
-
-  if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
-    console.warn('Notifications are not supported by this browser');
-    return false;
-  }
-
-  // Try to register worker
-  navigator.serviceWorker.register('serviceWorker.js')
-    .then(() => {
-      console.log('[PUSH] Service worker has been registered');
-      // push.update();
-    }, e => {
-      console.error('[PUSH] Service worker registration failed', e);
-    });
-
   let push = {};
 
+  /**
+   * Check browser compatibility
+   * @return {boolean}
+   */
+  push.isAvailable = function() {
+    if (!('serviceWorker' in navigator)) {
+      console.warn('Service workers are not supported by this browser');
+      return false;
+    }
+
+    if (!('PushManager' in window)) {
+      console.warn('Push notifications are not supported by this browser');
+      return false;
+    }
+
+    if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
+      console.warn('Notifications are not supported by this browser');
+      return false;
+    }
+
+    return true;
+  };
+
+  /**
+   * Try to register Service Worker
+   * Please, keep worker inside root directory!
+   */
+  push.register = function() {
+    // Try to register worker
+    navigator.serviceWorker.register('serviceWorker.js')
+      .then(() => {
+        console.log('[PUSH] Service worker has been registered');
+        // push.update();
+      }, e => {
+        console.error('[PUSH] Service worker registration failed', e);
+      });
+  };
+
   push.subscribe = function() {
-    console.log('push.unsubscribe');
+    console.log('[PUSH] Subscribe');
     navigator.serviceWorker.ready
-      .then(serviceWorkerRegistration => {
-        console.log(serviceWorkerRegistration);
-        return serviceWorkerRegistration.pushManager.subscribe({
+      .then(serviceWorkerRegistration => serviceWorkerRegistration.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey: urlBase64ToUint8Array(serverKey),
         })
-      })
+      )
       .then(subscription => {
-        console.log(subscription);
         // Subscription was successful
         // create subscription on your server
         return sendSubscriptionToServer(subscription, 'POST');
@@ -68,7 +79,7 @@ define(['jquery', 'bluz', 'bluz.notify'], function ($, bluz, notify) {
   };
 
   push.update = function() {
-    console.log('push.update');
+    console.log('[PUSH] Update subscription');
     navigator.serviceWorker.ready
       .then(serviceWorkerRegistration => serviceWorkerRegistration.pushManager.getSubscription())
       .then(subscription => {
@@ -85,7 +96,7 @@ define(['jquery', 'bluz', 'bluz.notify'], function ($, bluz, notify) {
   };
 
   push.unsubscribe = function() {
-    console.log('push.unsubscribe');
+    console.log('[PUSH] Unsubscribe');
     // To unsubscribe from push messaging, you need to get the subscription object
     navigator.serviceWorker.ready
       .then(serviceWorkerRegistration => serviceWorkerRegistration.pushManager.getSubscription())

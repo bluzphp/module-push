@@ -1,7 +1,7 @@
 /**
  * Service Worker
  *
- * Please keep it inside root directory!
+ * Please, keep it inside root directory!
  *
  * @link https://github.com/web-push-libs/web-push-php
  */

@@ -47,7 +47,7 @@ class Gateway
             json_encode([
                 'icon' => Router::getBaseUrl() . 'img/icon-512x512.png',
                 'badge' => Router::getBaseUrl() . 'img/icon-128x128.png',
-                'body' => $message,
+                'body' => $message
             ]),
             true
         );
