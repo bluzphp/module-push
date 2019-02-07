@@ -16,7 +16,7 @@ $uid = $grid->getUid();
           push.register();
 
           $subscribe.on('click', function() {
-            push.subscribe();
+            push.subscribe('<?=\Bluz\Proxy\Config::get('module.push', 'VAPID', 'publicKey')?>');
             return false;
           });
         } else {
@@ -43,7 +43,7 @@ $uid = $grid->getUid();
     <thead>
       <tr>
         <th width="60px" class="text-center"><a href="<?= $grid->order('id') ?: '#' ?>"><?= __('Id') ?></a></th>
-        <th><a href="<?= $grid->order('userId') ?: '#' ?>"><?= __('UserId') ?></a></th>
+        <th><a href="<?= $grid->order('userId') ?: '#' ?>"><?= __('User') ?></a></th>
         <th><a href="<?= $grid->order('contentEncoding') ?: '#' ?>"><?= __('ContentEncoding') ?></a></th>
         <th width="120px"><a href="<?= $grid->order('endpoint') ?: '#' ?>"><?= __('Endpoint') ?></a></th>
         <th><a href="<?= $grid->order('authToken') ?: '#' ?>"><?= __('AuthToken') ?></a></th>
@@ -74,11 +74,11 @@ $uid = $grid->getUid();
           </a>
           <a href="<?= $this->url('push', 'crud', ['id' => $row['id']]) ?>" class="btn btn-primary"
              data-ajax-dialog data-ajax-method="get" data-modal-style="modal-lg">
-            <i class="fa fa-pencil"></i>
+            <i class="fas fa-pencil-alt"></i>
           </a>
           <a href="<?= $this->url('push', 'crud', ['id' => $row['id']]) ?>" class="btn btn-danger"
              data-confirm data-ajax data-ajax-method="delete">
-            <i class="fa fa-trash-o"></i>
+            <i class="fa fa-trash"></i>
           </a>
         </td>
       </tr>

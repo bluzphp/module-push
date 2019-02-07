@@ -8,8 +8,6 @@
 define(['jquery', 'bluz', 'bluz.notify'], function ($, bluz, notify) {
   'use strict';
 
-  const serverKey = 'BIMtOOXkIBAENtP9DwQXr2OAvWMkGowrjHT8GZVEPWnN_kviXX7jqZqlkd7BpPK00112zPvUXnuYNUSwcN5HuqI';
-
   let push = {};
 
   /**
@@ -50,7 +48,7 @@ define(['jquery', 'bluz', 'bluz.notify'], function ($, bluz, notify) {
       });
   };
 
-  push.subscribe = function() {
+  push.subscribe = function(serverKey) {
     console.log('[PUSH] Subscribe');
     navigator.serviceWorker.ready
       .then(serviceWorkerRegistration => serviceWorkerRegistration.pushManager.subscribe({

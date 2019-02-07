@@ -16,7 +16,7 @@ $url = $this->url('push', 'crud');
     <div class="form-group row">
       <label class="col-form-label col-lg-4" for="userId"><?=__('UserId')?></label>
       <div class="col-lg-8">
-        <input type="number" id="userId" name="userId" class="form-control" value="<?= $row['userId'] ?>"/>
+        <input type="number" id="userId" name="userId" class="form-control" value="<?= $row['userId'] ?>" readonly />
         <div class="invalid-feedback"><!-- Place custom validator message here --></div>
       </div>
     </div>
