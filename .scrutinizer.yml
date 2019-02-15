@@ -1,3 +1,9 @@
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
 checks:
   javascript: true
   php:
@@ -7,10 +13,18 @@ checks:
     deprecated_code_usage: true
     code_rating: true
 filter:
-  excluded_paths:
-    - 'tests/*'
+  excluded_paths: [bin, docs, docker, data, tests, vendor]
 tools:
   php_analyzer: true
   php_code_sniffer:
     config:
       standard: PSR2
+  php_cpd:
+    enabled: true
+    excluded_dirs: [bin, docs, docker, data, tests, vendor]
+  php_loc:
+    enabled: true
+    excluded_dirs: [bin, docs, docker, data, tests, vendor]
+  php_mess_detector: true
+  php_pdepend: true
+  sensiolabs_security_checker: true
